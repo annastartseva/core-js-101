@@ -27,8 +27,17 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  if (num % 3 === 0 && num % 5 === 0) {
+    return 'FizzBuzz';
+  }
+  if (num % 3 === 0 && num % 5 !== 0) {
+    return 'Fizz';
+  }
+  if (num % 3 !== 0 && num % 5 === 0) {
+    return 'Buzz';
+  }
+  return num;
 }
 
 
@@ -43,8 +52,17 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  let fact = 1;
+  let num = n;
+  if (num < 2) {
+    return num;
+  }
+  while (num > 0) {
+    fact *= num;
+    num -= 1;
+  }
+  return fact;
 }
 
 
@@ -60,8 +78,12 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  let sum = 0;
+  for (let i = n1; i <= n2; i += 1) {
+    sum += i;
+  }
+  return sum;
 }
 
 
@@ -80,8 +102,8 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  return !!((a + b > c && b + c > a && a + c > b));
 }
 
 
@@ -117,8 +139,11 @@ function isTriangle(/* a, b, c */) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  if (rect1.top < rect2.top || rect1.height < rect2.left) {
+    return !!((rect1.width + rect1.top >= rect2.top && rect1.height + rect1.left >= rect2.left));
+  }
+  return !!((rect2.width + rect2.top >= rect1.top && rect2.height + rect2.left >= rect1.left));
 }
 
 
@@ -148,10 +173,13 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  if (circle.center.x + circle.radius > point.x && circle.center.y + circle.radius > point.y
+        && circle.center.x <= point.x && circle.center.y <= point.y) {
+    return true;
+  }
+  return false;
 }
-
 
 /**
  * Returns the first non repeated char in the specified strings otherwise returns null.
