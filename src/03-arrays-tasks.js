@@ -479,8 +479,8 @@ function getIntervalArray(start, end) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  return arr.filter((item, id, array) => array.indexOf(item) === id);
 }
 
 /**
@@ -571,8 +571,19 @@ function getElementByIndexes(arr, indexes) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const lengthArr = arr.length;
+  let newArr = [];
+
+  if (lengthArr % 2 === 0) {
+    const arr1 = arr.splice(0, lengthArr / 2);
+    newArr = arr.concat(arr1);
+  } else {
+    const arr1 = arr.splice(0, lengthArr / 2);
+    const arr2 = arr.splice(1);
+    newArr = arr2.concat(arr).concat(arr1);
+  }
+  return newArr;
 }
 
 

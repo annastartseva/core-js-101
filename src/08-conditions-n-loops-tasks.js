@@ -174,8 +174,8 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-  if (circle.center.x + circle.radius > point.x && circle.center.y + circle.radius > point.y
-        && circle.center.x <= point.x && circle.center.y <= point.y) {
+  if ((Math.sqrt((point.x - circle.center.x) ** 2
+            + (point.y - circle.center.y) ** 2)) < circle.radius) {
     return true;
   }
   return false;
@@ -192,8 +192,18 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const lengthStr = str.length;
+
+  for (let i = 0; i < lengthStr; i += 1) {
+    const symbol = str[i];
+
+    for (let j = 0; j < lengthStr; j += 1) {
+      if (symbol === str[j] && i !== j) break;
+      if (symbol !== str[j] && j === lengthStr - 1 && i !== j) return symbol;
+    }
+  }
+  return null;
 }
 
 
@@ -219,8 +229,22 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let start = null;
+  let end = null;
+  let value = null;
+  if (a < b) {
+    start = a;
+    end = b;
+  } else {
+    start = b;
+    end = a;
+  }
+  if (isStartIncluded === true && isEndIncluded === true) value = `[${start}, ${end}]`;
+  if (isStartIncluded === true && isEndIncluded === false) value = `[${start}, ${end})`;
+  if (isStartIncluded === false && isEndIncluded === true) value = `(${start}, ${end}]`;
+  if (isStartIncluded === false && isEndIncluded === false) value = `(${start}, ${end})`;
+  return value;
 }
 
 
@@ -236,8 +260,13 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  let reverse = '';
+  const strLength = str.length;
+  for (let j = strLength - 1; j >= 0; j -= 1) {
+    reverse = `${reverse}${str[j]}`;
+  }
+  return reverse;
 }
 
 
@@ -253,8 +282,14 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  const str = num.toString();
+  let reverse = '';
+  const strLength = str.length;
+  for (let j = strLength - 1; j >= 0; j -= 1) {
+    reverse = `${reverse}${str[j]}`;
+  }
+  return reverse;
 }
 
 
@@ -278,8 +313,19 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const strNumber = ccn.toString();
+  const arr = strNumber.split('');
+  let j = 0;
+  let sum = Number(arr[arr.length - 1]);
+  for (let i = strNumber.length - 2; i >= 0; i -= 1) {
+    let value = arr[i];
+    if (j % 2 === 0) { value *= 2; }
+    if (value > 9) { value -= 9; }
+    sum += Number(value);
+    j += 1;
+  }
+  return (sum % 10 === 0);
 }
 
 /**
