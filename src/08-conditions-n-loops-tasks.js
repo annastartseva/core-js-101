@@ -342,8 +342,15 @@ function isCreditCardNumber(ccn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const strNumber = num.toString();
+  const arr = strNumber.split('');
+  let sum = 0;
+  for (let i = 0; i < arr.length; i += 1) {
+    sum += Number(arr[i]);
+  }
+  if (sum > 9) { sum = getDigitalRoot(sum); }
+  return sum;
 }
 
 
@@ -368,8 +375,30 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const bracketsConfig = [
+    ['(', ')'],
+    ['[', ']'],
+    ['{', '}'],
+    ['<', '>'],
+  ];
+  const stack = [];
+
+  if (str.length === 0) { return true; }
+  if (str.length === 1) { return false; }
+  for (let i = 0; i < str.length; i += 1) {
+    const idSymbol = [];
+    bracketsConfig.forEach((item, index) => (item.indexOf(str[i]) >= 0
+      ? idSymbol.push(index, item.indexOf(str[i])) : false));
+    if (idSymbol[1] === 0) {
+      stack.push(str[i]);
+    } else if (bracketsConfig[idSymbol[0]][0] === stack[stack.length - 1] && stack.length !== 0) {
+      stack.pop(str[i]);
+    } else if (idSymbol[1] === 1 && stack.length === 0) {
+      return false;
+    }
+  }
+  return (stack.length === 0);
 }
 
 
@@ -410,8 +439,23 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const newArr = pathes.map((item) => item.split('/'));
+
+  const controlArr = newArr[0];
+  let summeryData = '';
+  for (let i = 0; i < controlArr.length; i += 1) {
+    let sum = 0;
+    for (let j = 1; j < newArr.length; j += 1) {
+      if (controlArr[i] === newArr[j][i]) {
+        sum += 1;
+      } else {
+        break;
+      }
+    }
+    if (sum === newArr.length - 1) summeryData = `${summeryData}${controlArr[i]}/`;
+  }
+  return summeryData;
 }
 
 
